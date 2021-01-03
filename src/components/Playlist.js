@@ -1,30 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import { setup } from 'axios-cache-adapter'
+import useRequest from '../lib/request';
 
 function Playlist() {
 
-    const api = setup({
-        baseURL: 'http://localhost:3000',
-        cache: {
-            maxAge: 15 * 60 * 1000
-        }
-    });
-
-    const [data, setData] = useState({ plays: [] });
-
-    useEffect(async () => {
-        const result = await api.get();
-        setData(result.data);
-    });
+    const { data, loading, error } = useRequest('http://localhost:8000/api/plays/2020-12-30');
 
     return (
-        <ul>
-            {data.hits.map(item => (
-                <li key={item.id}>
-                    
-                </li>
-            ))}
-        </ul> 
+        <>
+            {error && <div>Something went wrong ...{error.message}</div>}
+            {loading && (
+                <div>Loading ...</div>
+            )}
+            {!loading && data !== null && (
+                <>
+                    <h1>Playlist</h1>
+                    <ul>
+                        {data.data.map(item => (
+                            <li key={item.id}>
+                                {item.date}
+                                {item.song.artist.name}
+                                {item.song.title}
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+        </>
     );
 }
 

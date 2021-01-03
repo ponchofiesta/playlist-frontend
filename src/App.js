@@ -1,15 +1,12 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-
-import { DateRangePicker, Toggle } from 'rsuite';
+import Playlist from './components/Playlist';
 
 function App() {
   return (
     <Switch>
       <Route path="/">
-        Hallo
-        <Toggle size="lg"  />
-        <DateRangePicker />
+        <Playlist/>
       </Route>
     </Switch>
   );

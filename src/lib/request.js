@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { setup } from 'axios-cache-adapter';
 
-const useRequest = (url) => {
+function useRequest(url) {
     const api = setup({
         cache: {
             maxAge: 15 * 60 * 1000

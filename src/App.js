@@ -1,12 +1,12 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import Playlist from './components/Playlist';
+import MainPage from './components/MainPage';
 
 function App() {
   return (
     <Switch>
       <Route path="/">
-        <Playlist/>
+        <MainPage/>
       </Route>
     </Switch>
   );

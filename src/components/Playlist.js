@@ -1,28 +1,15 @@
-import useRequest from '../lib/request';
+import PlaylistItem from './PlaylistItem';
 
-function Playlist() {
-
-    const { data, loading, error } = useRequest('http://localhost:8000/api/plays/2020-12-30');
+function Playlist(props) {
 
     return (
         <>
-            {error && <div>Something went wrong ...{error.message}</div>}
-            {loading && (
-                <div>Loading ...</div>
-            )}
-            {!loading && data !== null && (
-                <>
-                    <h1>Playlist</h1>
-                    <ul>
-                        {data.data.map(item => (
-                            <li key={item.id}>
-                                {item.date}
-                                {item.song.artist.name}
-                                {item.song.title}
-                            </li>
-                        ))}
-                    </ul>
-                </>
+            {props.plays && (
+                <div>
+                    {props.plays.map(item => (
+                        <PlaylistItem key={item.id} date={item.date} artist={item.song.artist.name} title={item.song.title} />
+                    ))}
+                </div>
             )}
         </>
     );

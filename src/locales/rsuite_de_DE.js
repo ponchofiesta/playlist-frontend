@@ -20,15 +20,15 @@ const Calendar = {
   formattedDayPattern: 'dd MMM yyyy'
 };
 
-export default {
+const deDE = {
   common: {
     loading: 'Lädt...',
     emptyMessage: 'Keine Daten gefunden'
   },
   Plaintext: {
-    unfilled: 'Unfilled',
-    notSelected: 'Not selected',
-    notUploaded: 'Not uploaded'
+    unfilled: 'Nicht ausgefüllt',
+    notSelected: 'Nicht ausgewählt',
+    notUploaded: 'Nicht hochgeladen'
   },
   Pagination: {
     more: 'Mehr',
@@ -38,7 +38,7 @@ export default {
     last: 'Letzte'
   },
   TablePagination: {
-    lengthMenuInfo: '{0} / page',
+    lengthMenuInfo: '{0} / Seite',
     totalInfo: 'Total: {0}'
   },
   Calendar,
@@ -50,14 +50,14 @@ export default {
     last7Days: 'Letzte 7 Tage'
   },
   Picker: {
-    noResultsText: 'No results found',
+    noResultsText: 'Nichts gefunden',
     placeholder: 'Select',
-    searchPlaceholder: 'Search',
-    checkAll: 'All'
+    searchPlaceholder: 'Suche',
+    checkAll: 'Alle'
   },
   InputPicker: {
     newItem: 'Neues Element',
-    createOption: 'Create option "{0}"'
+    createOption: 'Element "{0}" erstellen'
   },
   Uploader: {
     inited: 'Gestartet',
@@ -78,3 +78,5 @@ export default {
     off: 'Aus'
   }
 };
+
+export default deDE;

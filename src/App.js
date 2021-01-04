@@ -5,7 +5,11 @@ import MainPage from './components/MainPage';
 function App() {
   return (
     <Switch>
-      <Route path="/">
+      <Route exact path="/">
+        <MainPage/>
+      </Route>
+      <Route path="/plays/:date">
+        DATE
         <MainPage/>
       </Route>
     </Switch>

@@ -1,20 +1,19 @@
-import styled from 'styled-components';
 import { Avatar } from 'rsuite';
+import * as styles from '../styles/playlist';
+import Moment from 'react-moment';
 
 function PlaylistItem(props) {
-
-    const Item = styled.div`
-        border: 1px solid red;
-    `;
-
     return (
-        <Item>
-            <Avatar circle src="https://avatars2.githubusercontent.com/u/12592949?s=460&v=4" />
-            <div>
-                <p>{props.title}</p>
-                <p>{props.artist}</p>
-            </div>
-        </Item>
+        <styles.PlaylistItemContainer>
+            <styles.PlaylistItemImage circle src={props.image} />
+            <styles.PlaylistItemMeta>
+                <styles.PlaylistItemTitle>{props.title}</styles.PlaylistItemTitle>
+                <styles.PlaylistItemArtist>{props.artist}</styles.PlaylistItemArtist>
+            </styles.PlaylistItemMeta>
+            <styles.PlaylistItemTime>
+                <Moment format="hh:mm">{props.date}</Moment>
+            </styles.PlaylistItemTime>
+        </styles.PlaylistItemContainer>
     );
 }
 

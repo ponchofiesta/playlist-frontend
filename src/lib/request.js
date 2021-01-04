@@ -1,37 +1,70 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { setup } from 'axios-cache-adapter';
 
-function useRequest(url) {
-    const api = setup({
-        cache: {
-            maxAge: 15 * 60 * 1000
-        }
+const api = setup({
+    cache: {
+        maxAge: 15 * 60 * 1000
+    }
+});
+
+const dataFetchReducer = (state, action) => {
+    switch (action.type) {
+        case 'init':
+            return {
+                ...state,
+                loading: true,
+                error: null
+            };
+        case 'success':
+            return {
+                ...state,
+                loading: false,
+                error: null,
+                data: action.payload,
+            };
+        case 'failure':
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
+        default:
+            throw new Error();
+    }
+};
+
+function useRequest(initialUrl, initialData) {
+
+    const [url, setUrl] = useState(initialUrl);
+
+    const [state, dispatch] = useReducer(dataFetchReducer, {
+        loading: false,
+        error: null,
+        data: initialData,
     });
 
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
-
     useEffect(() => {
-        let ignore = false;
+        let canceled = false;
         const fetchData = async () => {
+            dispatch({ type: 'init' });
             try {
-                setLoading(true);
                 const response = await api.get(url);
-                if (!ignore) {
-                    setData(response.data);
+                if (!canceled) {
+                    dispatch({ type: 'success', payload: response.data });
                 }
             } catch (err) {
-                setError(err);
-            } finally {
-                setLoading(false);
+                if (!canceled) {
+                    dispatch({ type: 'failure', payload: err });
+                }
             }
         };
-        fetchData();
-        return (() => { ignore = true; });
+        if (url && url !== '') {
+            fetchData();
+        }
+        return (() => { canceled = true; });
     }, [url]);
 
-    return { data, loading, error };
+    return [state, setUrl];
 };
 
 export default useRequest;

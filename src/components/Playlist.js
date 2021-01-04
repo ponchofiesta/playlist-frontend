@@ -7,7 +7,12 @@ function Playlist(props) {
             {props.plays && (
                 <div>
                     {props.plays.map(item => (
-                        <PlaylistItem key={item.id} date={item.date} artist={item.song.artist.name} title={item.song.title} />
+                        <PlaylistItem 
+                            key={item.id} 
+                            date={item.date} 
+                            artist={item.song.artist.name} 
+                            title={item.song.title} 
+                            image={item.song.cover_url} />
                     ))}
                 </div>
             )}

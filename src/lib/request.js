@@ -1,10 +1,15 @@
 import { useState, useEffect, useReducer } from 'react';
-import { setup } from 'axios-cache-adapter';
+import { setupCache } from 'axios-cache-adapter';
+import axios from 'axios';
 
-const api = setup({
-    cache: {
-        maxAge: 15 * 60 * 1000
-    }
+const cache = setupCache({
+    maxAge: 15 * 60 * 1000
+});
+const api = axios.create({
+    adapter: cache.adapter,
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+    }, 
 });
 
 const dataFetchReducer = (state, action) => {

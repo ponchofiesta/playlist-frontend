@@ -1,16 +1,16 @@
 import './App.css';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useParams } from 'react-router-dom';
 import MainPage from './components/MainPage';
+import config from './config';
 
 function App() {
+
+  const { station = config.stations[0] } = useParams();
+
   return (
     <Switch>
-      <Route exact path="/">
-        <MainPage/>
-      </Route>
-      <Route path="/plays/:date">
-        DATE
-        <MainPage/>
+      <Route exact path={["/", "/:date([0-9]{4}-[0-9]{2}-[0-9]{2})"]}>
+        <MainPage config={config} station={station} />
       </Route>
     </Switch>
   );

@@ -1,35 +1,26 @@
 import useRequest from '../lib/request';
 import Playlist from './Playlist';
-import { Container, Grid, Row, Col, Placeholder, Message, Dropdown, Calendar, Loader } from 'rsuite';
+import { Container, Grid, Row, Col, Placeholder, Message } from 'rsuite';
 import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
 import moment from 'moment';
+import DayChooser from './DayChooser';
 
-function MainPage() {
+function MainPage(props) {
 
     const [playsState, setPlaysUrl] = useRequest(null, null);
-    const [monthState, setMonthUrl] = useRequest(null, null);
     const { date = moment().format("YYYY-MM-DD") } = useParams();
 
     useEffect(() => {
-        setPlaysUrl(`http://localhost:8080/fritz/${date}`);
-    }, [date, setPlaysUrl]);
+        setPlaysUrl(`${props.config.apiUrl}/${props.station.key}/${date}`);
+    }, [date, setPlaysUrl, props.config.apiUrl, props.station]);
 
     return (
         <Container>
             <Grid>
                 <Row>
                     <Col>
-                        <Dropdown title="Date" onOpen={() => setMonthUrl(`http://localhost:8080/fritz/month/${date}`)}>
-                            {monthState.error && <Message showIcon type="error" title="Fehler" description={monthState.error.message} />}
-                            {monthState.loading && (
-                                 <Loader size="lg" center />
-                            )}
-                            {!monthState.loading && monthState.data && (
-                                <Calendar bordered renderCell={() => null} />
-                            )}
-                        </Dropdown>
-                        
+                        <DayChooser config={props.config} station={props.station} date={date} />
                     </Col>
                 </Row>
             </Grid>

@@ -1,34 +1,55 @@
 import useRequest from '../lib/request';
 import { Dropdown, Calendar, Loader, Message } from 'rsuite';
 import moment from 'moment';
+import { useState } from 'react';
 
 function DayChooser(props) {
 
     const [monthState, setMonthUrl] = useRequest(null, null);
-    console.log(monthState);
+    const [open, setOpen] = useState(false);
 
     const getMonth = date => {
         setMonthUrl(`${props.config.apiUrl}/${props.station.key}/month/${date}`);
     };
     const renderCell = date => {
+        if (!monthState.data) {
+            return null;
+        }
         const days = monthState.data.days.filter(day => {
-            day.date == moment(date).format('YYYY-MM-DD')
+            return day.date == moment(date).format('YYYY-MM-DD')
         });
-        console.log(days);
         if (days.length) {
-            return <div>{days[0].songs_count}</div>;
+            return <div style={{color: 'grey'}}>{days[0].songs_count}</div>;
         }
         return null;
     };
+    const onSelect = date => {
+        if (props.onSelect) {
+            props.onSelect(moment(date).format('YYYY-MM-DD'));
+        }
+        setOpen(false);
+    };
+
+    const calendarBlur = monthState.loading ? {filter: 'blur(8px)'} : {};
 
     return (
-        <Dropdown title="Date" onOpen={() => getMonth(props.date)}>
-            {monthState.error && <Message showIcon type="error" title="Fehler" description={monthState.error.message} />}
+        <Dropdown title="Date" onClick={() => setOpen(!open)} open={open} onOpen={() => getMonth(props.date)}>
+            <Calendar compact bordered defaultValue={moment(props.date).toDate()}
+                    onChange={date => getMonth(moment(date).format('YYYY-MM-DD'))} 
+                    onSelect={date => onSelect(moment(date).format('YYYY-MM-DD'))} 
+                    renderCell={renderCell} 
+                    style={{...calendarBlur, width: '400px'}} />
             {monthState.loading && (
-                <Loader size="lg" center />
-            )}
-            {!monthState.loading && monthState.data && (
-                <Calendar compact bordered renderCell={renderCell} style={{width: '300px'}} />
+                <div style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        zIndex: 100
+                    }}>
+                    <Loader center />
+                </div>
             )}
         </Dropdown>
     )

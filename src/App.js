@@ -9,7 +9,7 @@ function App() {
 
   return (
     <Switch>
-      <Route exact path={["/", "/:date([0-9]{4}-[0-9]{2}-[0-9]{2})"]}>
+      <Route exact path={["/", "/:station/:date([0-9]{4}-[0-9]{2}-[0-9]{2})"]}>
         <MainPage config={config} station={station} />
       </Route>
     </Switch>

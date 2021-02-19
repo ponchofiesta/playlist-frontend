@@ -5,22 +5,28 @@ import { useParams } from "react-router-dom";
 import { useEffect } from 'react';
 import moment from 'moment';
 import DayChooser from './DayChooser';
+import { useHistory } from "react-router-dom";
 
 function MainPage(props) {
 
     const [playsState, setPlaysUrl] = useRequest(null, null);
     const { date = moment().format("YYYY-MM-DD") } = useParams();
+    const history = useHistory();
 
     useEffect(() => {
         setPlaysUrl(`${props.config.apiUrl}/${props.station.key}/${date}`);
     }, [date, setPlaysUrl, props.config.apiUrl, props.station]);
+
+    const onDayChange = date => {
+        history.push(`/${props.station}/${date}`);
+    };
 
     return (
         <Container>
             <Grid>
                 <Row>
                     <Col>
-                        <DayChooser config={props.config} station={props.station} date={date} />
+                        <DayChooser config={props.config} station={props.station} date={date} onSelect={onDayChange} />
                     </Col>
                 </Row>
             </Grid>
@@ -37,7 +43,7 @@ function MainPage(props) {
                             </>
                         )}
                         {!playsState.loading && playsState.data && (
-                            <Playlist plays={playsState.data.data} />
+                            <Playlist plays={playsState.data.plays} />
                         )}
                     </Col>
                     <Col xs={24} sm={24} md={12}>

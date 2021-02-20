@@ -1,25 +1,27 @@
 import useRequest from '../lib/request';
-import { Dropdown, Calendar, Loader, Message } from 'rsuite';
+import { Dropdown, Calendar, Loader, Tag } from 'rsuite';
 import moment from 'moment';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import ConfigContext from '../ConfigContext';
 
 function DayChooser(props) {
 
+    const context = useContext(ConfigContext);
     const [monthState, setMonthUrl] = useRequest(null, null);
     const [open, setOpen] = useState(false);
 
     const getMonth = date => {
-        setMonthUrl(`${props.config.apiUrl}/${props.station.key}/month/${date}`);
+        setMonthUrl(`${context.config.apiUrl}/${context.station.key}/month/${date}`);
     };
     const renderCell = date => {
         if (!monthState.data) {
             return null;
         }
         const days = monthState.data.days.filter(day => {
-            return day.date == moment(date).format('YYYY-MM-DD')
+            return day.date === moment(date).format('YYYY-MM-DD')
         });
         if (days.length) {
-            return <div style={{color: 'grey'}}>{days[0].songs_count}</div>;
+            return <Tag style={{color: 'grey'}}>{days[0].songs_count}</Tag>;
         }
         return null;
     };

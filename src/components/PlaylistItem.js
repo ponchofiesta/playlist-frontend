@@ -1,4 +1,4 @@
-import { Avatar } from 'rsuite';
+// import { Avatar } from 'rsuite';
 import * as styles from '../styles/playlist';
 import Moment from 'react-moment';
 

@@ -2,23 +2,25 @@ import useRequest from '../lib/request';
 import Playlist from './Playlist';
 import { Container, Grid, Row, Col, Placeholder, Message } from 'rsuite';
 import { useParams } from "react-router-dom";
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import moment from 'moment';
 import DayChooser from './DayChooser';
 import { useHistory } from "react-router-dom";
+import ConfigContext from '../ConfigContext';
 
 function MainPage(props) {
 
+    const context = useContext(ConfigContext);
     const [playsState, setPlaysUrl] = useRequest(null, null);
     const { date = moment().format("YYYY-MM-DD") } = useParams();
     const history = useHistory();
 
     useEffect(() => {
-        setPlaysUrl(`${props.config.apiUrl}/${props.station.key}/${date}`);
-    }, [date, setPlaysUrl, props.config.apiUrl, props.station]);
+        setPlaysUrl(`${context.config.apiUrl}/${context.station.key}/${date}`);
+    }, [date, setPlaysUrl, context.config.apiUrl, context.station]);
 
     const onDayChange = date => {
-        history.push(`/${props.station}/${date}`);
+        history.push(`/${context.station}/${date}`);
     };
 
     return (
@@ -26,7 +28,7 @@ function MainPage(props) {
             <Grid>
                 <Row>
                     <Col>
-                        <DayChooser config={props.config} station={props.station} date={date} onSelect={onDayChange} />
+                        <DayChooser date={date} onSelect={onDayChange} />
                     </Col>
                 </Row>
             </Grid>

@@ -1,12 +1,13 @@
 import useRequest from '../lib/request';
 import Playlist from './Playlist';
-import { Container, Grid, Row, Col, Placeholder, Message } from 'rsuite';
+import { Container, Grid, Row, Col, Placeholder, Message} from 'rsuite';
 import { useParams } from "react-router-dom";
 import { useContext, useEffect } from 'react';
 import moment from 'moment';
 import DayChooser from './DayChooser';
 import { useHistory } from "react-router-dom";
 import ConfigContext from '../ConfigContext';
+import Search from './Search';
 
 function MainPage() {
 
@@ -22,20 +23,29 @@ function MainPage() {
     const onDayChange = date => {
         history.push(`/${context.station.key}/${date}`);
     };
+    const onSearch = term => {
+        const params = new URLSearchParams({ term });
+        history.push(`/${context.station.key}/search?${params.toString()}`);
+    };
 
     return (
         <Container>
             <Grid>
                 <Row>
-                    <Col>
-                        <DayChooser date={date} onSelect={onDayChange} />
+                    <Col xs={24} sm={24} md={24}>
+                        <h2>Playlist for {date ?? 'today'}</h2>
                     </Col>
                 </Row>
-            </Grid>
-            <Grid>
+                <Row>
+                    <Col xs={24} sm={24} md={12}>
+                        <DayChooser defaultDate={date} onSelect={onDayChange} />
+                    </Col>
+                    <Col xs={24} sm={24} md={12}>
+                        <Search onSearch={onSearch} />
+                    </Col>
+                </Row>
                 <Row className="show-grid">
                     <Col xs={24} sm={24} md={12}>
-                        <h2>Playlist for {date ?? 'today'}</h2>
                         {playsState.error && <Message showIcon type="error" title="Fehler" description={playsState.error.message} />}
                         {playsState.loading && (
                             <>

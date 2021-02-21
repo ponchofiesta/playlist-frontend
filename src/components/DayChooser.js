@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useContext, useState } from 'react';
 import ConfigContext from '../ConfigContext';
 
-function DayChooser(props) {
+function DayChooser({onSelect, defaultDate}) {
 
     const [context] = useContext(ConfigContext);
     const [monthState, setMonthUrl] = useRequest(null, null);
@@ -25,9 +25,9 @@ function DayChooser(props) {
         }
         return null;
     };
-    const onSelect = date => {
-        if (props.onSelect) {
-            props.onSelect(moment(date).format('YYYY-MM-DD'));
+    const select = date => {
+        if (onSelect) {
+            onSelect(moment(date).format('YYYY-MM-DD'));
         }
         setOpen(false);
     };
@@ -35,10 +35,10 @@ function DayChooser(props) {
     const calendarBlur = monthState.loading ? {filter: 'blur(8px)'} : {};
 
     return (
-        <Dropdown title="Date" onClick={() => setOpen(!open)} open={open} onOpen={() => getMonth(props.date)}>
-            <Calendar compact bordered defaultValue={moment(props.date).toDate()}
+        <Dropdown title="Date" onClick={() => setOpen(!open)} open={open} onOpen={() => getMonth(defaultDate)}>
+            <Calendar compact bordered defaultValue={moment(defaultDate).toDate()}
                     onChange={date => getMonth(moment(date).format('YYYY-MM-DD'))} 
-                    onSelect={date => onSelect(moment(date).format('YYYY-MM-DD'))} 
+                    onSelect={date => select(moment(date).format('YYYY-MM-DD'))} 
                     renderCell={renderCell} 
                     style={{...calendarBlur, width: '400px'}} />
             {monthState.loading && (

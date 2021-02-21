@@ -8,9 +8,9 @@ import DayChooser from './DayChooser';
 import { useHistory } from "react-router-dom";
 import ConfigContext from '../ConfigContext';
 
-function MainPage(props) {
+function MainPage() {
 
-    const context = useContext(ConfigContext);
+    const [context] = useContext(ConfigContext);
     const [playsState, setPlaysUrl] = useRequest(null, null);
     const { date = moment().format("YYYY-MM-DD") } = useParams();
     const history = useHistory();
@@ -20,7 +20,7 @@ function MainPage(props) {
     }, [date, setPlaysUrl, context.config.apiUrl, context.station]);
 
     const onDayChange = date => {
-        history.push(`/${context.station}/${date}`);
+        history.push(`/${context.station.key}/${date}`);
     };
 
     return (

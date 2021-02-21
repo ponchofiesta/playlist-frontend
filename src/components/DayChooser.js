@@ -6,7 +6,7 @@ import ConfigContext from '../ConfigContext';
 
 function DayChooser(props) {
 
-    const context = useContext(ConfigContext);
+    const [context] = useContext(ConfigContext);
     const [monthState, setMonthUrl] = useRequest(null, null);
     const [open, setOpen] = useState(false);
 

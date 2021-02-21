@@ -11,7 +11,7 @@ function PlaylistItem(props) {
                 <styles.PlaylistItemArtist>{props.artist}</styles.PlaylistItemArtist>
             </styles.PlaylistItemMeta>
             <styles.PlaylistItemTime>
-                <Moment format="hh:mm">{props.date}</Moment>
+                <Moment format="HH:mm">{props.date}</Moment>
             </styles.PlaylistItemTime>
         </styles.PlaylistItemContainer>
     );

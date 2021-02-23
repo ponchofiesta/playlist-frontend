@@ -4,6 +4,8 @@ import MainPage from './components/MainPage';
 import ConfigContext from './ConfigContext';
 import config from './config';
 import { useState } from 'react';
+// import SearchPage from './components/SearchPage';
+import StationRoute from './components/StationRoute';
 
 function App() {
 
@@ -13,9 +15,8 @@ function App() {
   return (
     <ConfigContext.Provider value={[context, setContext]}>
       <Switch>
-        <Route exact path={["/", "/:station/:date([0-9]{4}-[0-9]{2}-[0-9]{2})"]}>
-          <MainPage />
-        </Route>
+        <Route exact path="/" component={MainPage} />
+        <Route path="/:station" component={StationRoute} />
       </Switch>
     </ConfigContext.Provider>
   );

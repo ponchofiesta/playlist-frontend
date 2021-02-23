@@ -1,19 +1,23 @@
 import { InputGroup, Input, Icon} from 'rsuite';
-import { useRef } from 'react';
+import { useState } from 'react';
 
 function Search({onSearch}) {
 
-    const input = useRef(null);
+    const [value, setValue] = useState("");
+
+    const onChange = val => {
+        setValue(val);
+    };
 
     const search = () => {
         if (onSearch) {
-            onSearch(input.current.value);
+            onSearch(value);
         }
     };
 
     return (
         <InputGroup inside>
-            <Input ref={input} onPressEnter={search}/>
+            <Input onChange={onChange} onPressEnter={search} placeholder="Suche" />
             <InputGroup.Button onClick={search}>
                 <Icon icon="search" />
             </InputGroup.Button>

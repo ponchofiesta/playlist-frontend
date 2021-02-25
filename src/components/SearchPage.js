@@ -1,5 +1,5 @@
-import { Container, Grid, Row, Col, Placeholder, Message} from 'rsuite';
-import { useParams } from "react-router-dom";
+import { Container, Grid, Row, Col, Placeholder, Message } from 'rsuite';
+import { useQuery } from "../lib/url";
 import { useContext, useEffect } from 'react';
 import useRequest from '../lib/request';
 import { useHistory } from "react-router-dom";
@@ -7,14 +7,11 @@ import ConfigContext from '../ConfigContext';
 import Search from './Search';
 import Playlist from './Playlist';
 
-
 function SearchPage() {
-
-    console.log("search");
 
     const [context] = useContext(ConfigContext);
     const [playsState, setPlaysUrl] = useRequest(null, null);
-    const {term} = useParams();
+    const { term } = useQuery();
     const history = useHistory();
 
     useEffect(() => {

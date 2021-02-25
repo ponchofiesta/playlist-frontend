@@ -1,6 +1,6 @@
 import useRequest from '../lib/request';
 import Playlist from './Playlist';
-import { Container, Grid, Row, Col, Placeholder, Message} from 'rsuite';
+import { Container, Grid, Row, Col, Placeholder, Message } from 'rsuite';
 import { useParams } from "react-router-dom";
 import { useContext, useEffect } from 'react';
 import moment from 'moment';

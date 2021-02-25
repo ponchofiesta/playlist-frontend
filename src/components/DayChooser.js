@@ -4,7 +4,7 @@ import moment from 'moment';
 import { useContext, useState } from 'react';
 import ConfigContext from '../ConfigContext';
 
-function DayChooser({onSelect, defaultDate}) {
+function DayChooser({ onSelect, defaultDate }) {
 
     const [context] = useContext(ConfigContext);
     const [monthState, setMonthUrl] = useRequest(null, null);
@@ -21,7 +21,7 @@ function DayChooser({onSelect, defaultDate}) {
             return day.date === moment(date).format('YYYY-MM-DD')
         });
         if (days.length) {
-            return <Tag style={{color: 'grey'}}>{days[0].songs_count}</Tag>;
+            return <Tag style={{ color: 'grey' }}>{days[0].songs_count}</Tag>;
         }
         return null;
     };
@@ -32,24 +32,24 @@ function DayChooser({onSelect, defaultDate}) {
         setOpen(false);
     };
 
-    const calendarBlur = monthState.loading ? {filter: 'blur(8px)'} : {};
+    const calendarBlur = monthState.loading ? { filter: 'blur(8px)' } : {};
 
     return (
         <Dropdown title="Date" onClick={() => setOpen(!open)} open={open} onOpen={() => getMonth(defaultDate)}>
             <Calendar compact bordered defaultValue={moment(defaultDate).toDate()}
-                    onChange={date => getMonth(moment(date).format('YYYY-MM-DD'))} 
-                    onSelect={date => select(moment(date).format('YYYY-MM-DD'))} 
-                    renderCell={renderCell} 
-                    style={{...calendarBlur, width: '400px'}} />
+                onChange={date => getMonth(moment(date).format('YYYY-MM-DD'))}
+                onSelect={date => select(moment(date).format('YYYY-MM-DD'))}
+                renderCell={renderCell}
+                style={{ ...calendarBlur, width: '400px' }} />
             {monthState.loading && (
                 <div style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        zIndex: 100
-                    }}>
+                    position: 'absolute',
+                    left: 0,
+                    top: 0,
+                    bottom: 0,
+                    right: 0,
+                    zIndex: 100
+                }}>
                     <Loader center />
                 </div>
             )}
